@@ -1,11 +1,6 @@
 $(function(){
 
 
-
-
-
-
-
 getNflData('crime');
 
 

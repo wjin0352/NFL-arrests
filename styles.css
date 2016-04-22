@@ -1,0 +1,16 @@
+.header-input {
+  margin: 2% auto;
+  width: 250px;
+}
+
+.list-results {
+  border: 0.01em solid grey;
+  margin: 2% auto;
+  width: 700px;
+  height: 1000px;
+}
+
+#user-input {
+  height: 2.2em;
+  display: inline-block;
+}
