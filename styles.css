@@ -40,7 +40,7 @@ ul {
   .popup {
     width:100%;
     height:100%;
-    /*display:none;*/
+    display:none;
     position:fixed;
     top:0px;
     left:0px;
@@ -81,7 +81,7 @@ ul {
     font-size:20px;
     text-align:center;
     line-height:100%;
-    color:blue;
+    color:#fff;
   }
 
   .popup-close:hover {
@@ -89,5 +89,5 @@ ul {
     transform:translate(50%, -50%) rotate(180deg);
     background:rgba(0,0,0,1);
     color:red;
-    text-decoration:none;
+    text-decoration:noane;
   }

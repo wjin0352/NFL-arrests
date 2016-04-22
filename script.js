@@ -2,6 +2,7 @@ $(function(){
 
 
 getNflData('crime');
+showModal();
 
 
 });
@@ -25,5 +26,20 @@ var getNflData = function(user_input) {
   })
   .fail(function(jqXHR, error){
     console.log(error);
+  });
+};
+
+// show the modal button jquery
+var showModal = function() {
+  $('input[data-popup-open="popup-1"]').on('click', function(){
+    // alert('yo');
+    $('.popup').fadeIn(1000);
+    hideModal();
+  });
+};
+
+var hideModal = function() {
+  $('[data-popup-close="popup-1"]').on('click', function(){
+    $('.popup').fadeOut();
   });
 };
