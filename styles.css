@@ -23,6 +23,7 @@ img {
   height:200px;
   margin: 1% 2%;
   border-radius: 10px
+  border: 0.01em solid grey;
 }
 
 hr {
