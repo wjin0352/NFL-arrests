@@ -29,7 +29,7 @@ var getNflData = function(user_input) {
   });
 };
 
-// show the modal button jquery
+// modal features
 var showModal = function() {
   $('input[data-popup-open="popup-1"]').on('click', function(){
     // alert('yo');

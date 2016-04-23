@@ -9,6 +9,13 @@
   margin: 2% auto;
   width: 700px;
   height: 1000px;
+  background-color: #fff;
+}
+
+.background {
+  /*background-image:url('//b.fastcompany.net/multisite_files/fastcompany/inline/2015/05/3045886-inline-i-1-nfl-marvel.jpg');
+  background-size: cover;
+  background-repeat: no-repeat;*/
 }
 
 img {
@@ -45,13 +52,16 @@ ul {
     top:0px;
     left:0px;
     background:rgba(0,0,0,0.75);
+    background-image: url('http://insider.ticketmaster.com/wp-content/uploads/nfl-schedule-guide.png');
+    background-size: cover;
+    background-repeat: no-repeat;
   }
 
   /* Inner */
   .popup-inner {
     max-width:1000px;
-    width:90%;
-    height:90%;
+    width:80%;
+    height:80%;
     padding:40px;
     position:absolute;
     top:50%;
