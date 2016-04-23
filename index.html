@@ -2,10 +2,66 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
   <link rel="stylesheet" href="styles.css">
   <title>Document</title>
 </head>
 <body>
+  <div class="header-input">
+    <form class="main-user-input"></form>
+    <input type="text" id="user-input">
+    <input type="submit" value="submit" class="btn btn-default">
+  </div>
+  <hr>
+  <div class="background">
+    <div class="list-results">
+      <div class="result-item">
+        <img src="http://static3.therichestimages.com/cdn/1170/1041/90/cw/wp-content/uploads/2014/02/rozier.jpg" alt="nfl player photo">
+        <ul>
+          <li>Name: Some Dude</li>
+          <li>Team: NY Giants</li>
+          <li>Position: Line backer</li>
+          <li>Last violation date: 01/15/2016</li>
+          <input type="submit" value="show rap sheet" class="btn btn-default" data-popup-open="popup-1">
+        </ul>
+        <hr>
+      </div>
+      <div class="result-item">
+        <img src="http://static3.therichestimages.com/cdn/1170/1041/90/cw/wp-content/uploads/2014/02/rozier.jpg" alt="nfl player photo">
+        <ul>
+          <li>Name: Some Dude</li>
+          <li>Team: NY Giants</li>
+          <li>Position: Line backer</li>
+          <li>Last violation date: 01/15/2016</li>
+          <input type="submit" value="show rap sheet" class="btn btn-default" data-popup-open="popup-1">
+        </ul>
+        <hr>
+      </div>
+      <div class="result-item">
+        <img src="http://static3.therichestimages.com/cdn/1170/1041/90/cw/wp-content/uploads/2014/02/rozier.jpg" alt="nfl player photo">
+        <ul>
+          <li>Name: Some Dude</li>
+          <li>Team: NY Giants</li>
+          <li>Position: Line backer</li>
+          <li>Last violation date: 01/15/2016</li>
+          <input type="submit" value="show rap sheet" class="btn btn-default" data-popup-open="popup-1">
+        </ul>
+        <hr>
+      </div>
+    </div>
+  </div>
+  <footer>
+  <!-- hidden modal html START -->
+    <div class="popup" data-popup="popup-1">
+      <div class="popup-inner">
+        <h2>some stuff! modal!</h2>
+        <p>more details</p>
+        <input type="submit" value="close" class="btn btn-default" data-popup-close="popup-1">
+        <a class="popup-close" data-popup-close="popup-1" href="#">x</a>
+      </div>
+    </div>
+  <!-- hidden modal html END -->
+  </footer>
 <script src="http://code.jquery.com/jquery-latest.min.js"></script>
 <script src="script.js"></script>
 </body>
