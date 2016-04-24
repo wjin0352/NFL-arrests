@@ -1,3 +1,7 @@
+body {
+  color:#8c96a1;
+}
+
 .header-input {
   margin: 2% auto;
   width: 250px;
@@ -10,10 +14,34 @@
   width: 700px;
   height: 1000px;
   background-color: #fff;
+  /*display:none;*/
+}
+
+.intro-message h1 {
+  padding: 0;
+  margin: 0 auto;
+  position: relative;
+  width: 96%;
+}
+
+h1:after {
+  height: 5px;
+  width: 160px;
+  background: #d55e2a;
+  display: table;
+  content: " ";
+  margin: 30px auto 25px;
+}
+
+h1 {
+  font-size: 38px;
+  line-height: 53px;
+  max-width: 680px;
+  text-align: center;
 }
 
 .background {
-  /*background-image:url('//b.fastcompany.net/multisite_files/fastcompany/inline/2015/05/3045886-inline-i-1-nfl-marvel.jpg');
+/*  background-image:url('//b.fastcompany.net/multisite_files/fastcompany/inline/2015/05/3045886-inline-i-1-nfl-marvel.jpg');
   background-size: cover;
   background-repeat: no-repeat;*/
 }
@@ -44,7 +72,7 @@ ul {
 
 /* MODAL CSS */
 
-  /* Outer */
+  /* MODAL2 Outer */
   .popup {
     width:100%;
     height:100%;
@@ -58,7 +86,7 @@ ul {
     background-repeat: no-repeat;
   }
 
-  /* Inner */
+  /* MODAL2 Inner */
   .popup-inner {
     max-width:1000px;
     width:80%;
@@ -100,5 +128,76 @@ ul {
     transform:translate(50%, -50%) rotate(180deg);
     background:rgba(0,0,0,1);
     color:red;
-    text-decoration:noane;
+    text-decoration:none;
+  }
+/* End Modal */
+
+
+  .page-outer {
+    padding: 20px;
+    max-width: 1600px;
+    width: 90%;
+    margin: 0 auto;
+    position: relative;
+  }
+
+  .background {
+    position: relative;
+    display: table;
+    width: 100%;
+    background: #1d2023;
+    color: black;
+    padding: 80px 20px;
+    margin:0 auto;
+    /*width:1000px;*/
+  }
+
+  header {
+    padding: 60px 20px;
+    background: #1d2023;
+    margin: 0 auto;
+    width:100%;
+    /*border-bottom: 1px solid #fff;;*/
+  }
+
+  .intro-message {
+    position: relative;
+    display: table;
+    margin:0 auto;
+    width: 100%;
+    background: #1d2023;
+    color: #fff;
+    padding: 80px 20px;
+    height:300px;
+    border-bottom:1px solid #fff;
+  }
+
+  div.social {
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin: 50px 0 30px;
+  }
+
+  div.social a {
+    display: inline-block;
+    margin: 0 20px;
+  }
+
+  a {
+    color: #8c96a1;
+    text-decoration: none;
+  }
+
+  .footer {
+    text-align: center;
+    font-size: 13px;
+    height: 250px;
+  }
+
+  .wrapper {
+    padding: 0;
+    margin: 0 auto;
+    position: relative;
+    width: 96%;
+    max-width: 1200px;
   }
