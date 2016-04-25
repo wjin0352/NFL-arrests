@@ -237,3 +237,8 @@ ul {
     opacity: .6;
     transition: opacity 300ms ease-in-out 0s;
   }
+
+  .result-item:hover {
+    opacity: .6;
+    transition: opacity 300ms ease-in-out 0s;
+  }
