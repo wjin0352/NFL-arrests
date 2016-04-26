@@ -68,6 +68,10 @@ ul {
   display: inline-block;
 }
 
+ol#top_crimes_list {
+  list-style-type: none;
+}
+
 
 /* MODAL CSS */
 
@@ -210,7 +214,7 @@ ul {
     border-top: 1px solid #fff;
     border-bottom: 2px solid #fff;
     border-right: 2px solid #fff;
-    overflow: hidden;
+    overflow: scroll;
     color: #fff;
 
   }
@@ -235,7 +239,7 @@ ul {
   }
 
   .feat1:hover, .feat2:hover, .feat3:hover {
-    opacity: .6;
+    opacity: .9;
     transition: opacity 300ms ease-in-out 0s;
   }
 
