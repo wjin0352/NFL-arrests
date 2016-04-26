@@ -31,8 +31,6 @@ var html = {
   });
 }
 
-
-
 // $.ajax({
 //   url: "http://NflArrest.com/api/v1/player/arrests/Adam%20Jones",
 //   type: "GET",
