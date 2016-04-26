@@ -215,12 +215,13 @@ ul {
 
   }
 
-  .feat2 {
+  div.feat2 {
     background-color: #122756;
     border-right: 2px solid #fff;
     width:50%;
     height:400px;
     color:#fff;
+    margin-top: -20px;
   }
 
   .feat3 {
