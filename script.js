@@ -4,7 +4,7 @@ fadingBody();
 getData('crime', showTopCrimes);
 getData('team', showTopTeams);
 getData('player', showTopPlayers);
-showModal1();
+getInput();
 showModal2();
 
   // $('body').fadeOut(1000);
@@ -19,17 +19,48 @@ var html = {
 };
 
 // list feature
-  var getResultItem = function() {
-
+  var showPlayer = function(tag, result) {
+    if (result.length == 0) {
+      alert(tag + ' has no known offenses.');
+    };
   }
 
-  var showModal1 = function() {
-  $('form.main-user-input').on('submit', function(e) {
-    e.preventDefault();
-    var input = $('#user-input').val();
+  // event handler for input box
+  var getInput = function() {
+    $('form.main-user-input').on('submit', function(e) {
+      e.preventDefault();
+      var input = $('#user-input').val();
+      parseInput(input);
+    });
+  }
 
-  });
-}
+  var parseInput = function(data) {
+    var input = data.toLowerCase();
+    // console.log(input);
+    getPlayerData(input, showPlayer);
+  }
+
+  var getPlayerData = function(tag, callback) {
+    var request = {
+      tag: tag
+    };
+
+    $.ajax({
+      url: "http://nflarrest.com/api/v1/player/arrests/" + request.tag,
+      data: request,
+      dataType: "json",
+      type: "GET",
+    })
+    .done(function(result){
+      callback(tag, result);
+    })
+    .fail(function(jqXHR, error){
+      console.log(error);
+    });
+  }
+
+
+
 
 // $.ajax({
 //   url: "http://NflArrest.com/api/v1/player/arrests/Adam%20Jones",
