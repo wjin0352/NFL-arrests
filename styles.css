@@ -68,6 +68,10 @@ ul {
   display: inline-block;
 }
 
+ol {
+  list-style-type: none;
+}
+
 
 /* MODAL CSS */
 
@@ -221,6 +225,8 @@ ul {
     width:50%;
     height:400px;
     color:#fff;
+    /*margin-top: -20px;*/
+    overflow: hidden;
   }
 
   .feat3 {
@@ -231,10 +237,11 @@ ul {
     width:50%;
     right:0px;
     top:0px;
+    overflow: hidden;
   }
 
   .feat1:hover, .feat2:hover, .feat3:hover {
-    opacity: .6;
+    opacity: .9;
     transition: opacity 300ms ease-in-out 0s;
   }
 
@@ -242,3 +249,8 @@ ul {
     opacity: .6;
     transition: opacity 300ms ease-in-out 0s;
   }
+
+  /* list feature */
+    .result-item {
+      display:none;
+    }
