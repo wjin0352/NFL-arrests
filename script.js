@@ -35,12 +35,9 @@ var html = {
     scrollToAnchor('scroll');
     $('.result-item').fadeIn(2000);
     showModal2();
-
     // $('.result-item').fadeIn(2000)
     // wait until i append results, then call showModal2() event handler for button click
     // showModal2();
-
-
   }
 
   var scrollToAnchor = function(id){
