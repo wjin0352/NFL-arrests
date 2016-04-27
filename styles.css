@@ -255,3 +255,33 @@ ol {
     .result-item {
       display:none;
     }
+
+  /* modal list feature */
+    .result_player_item {
+      display: none;
+    }
+
+  #player-bio {
+    float: left;
+    position: relative;
+  }
+
+  .player-photo {
+    /*float: left;*/
+    display: inline-block;
+    margin: 0px 10px 0 0;
+  }
+
+  .player-photo img {
+    float: left;
+    border: 1px solid #cecece;
+    padding: 0px;
+    background: white;
+  }
+
+  .player-info {
+    float: right;
+    padding-bottom: 10px;
+    margin: 20px 29px;
+    text-align: left;
+  }

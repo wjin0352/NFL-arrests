@@ -14,7 +14,7 @@ var html = {
 
 /* Header input & .list feature section3 */
   var showPlayer = function(tag, result) {
-    console.log(result);
+    // console.log(result);
     if (result.length == 0) {
       alert(tag + ' has no known offenses.');
     } else {
@@ -29,22 +29,21 @@ var html = {
     scrollToAnchor('scroll');
     $('.result-item').fadeIn();
     $('.result-item').addClass('animated bounceIn');
-    showModal2();
+    showModal2(tag, result);
     // $('.result-item').fadeIn(2000)
     // wait until i append results, then call showModal2() event handler for button click
     // showModal2();
   }
 
-  var scrollToAnchor = function(id){
-    var aTag = $("a[href='"+ id +"']");
-    $('html,body').animate({scrollTop: aTag.offset().top},'slow');
-  }
-
   var editTag = function(tag) {
     // give tag a dash inbtwn names to get url for amazon S3 picture.
     var edit = tag.split(" ").join('-');
-    console.log(edit);
     return edit;
+  }
+
+  var scrollToAnchor = function(id){
+    var aTag = $("a[href='"+ id +"']");
+    $('html,body').animate({scrollTop: aTag.offset().top},'slow');
   }
 
   /* players event handler for input box */
@@ -84,7 +83,7 @@ var html = {
 
 
 
-/* 2nd section .background */
+/* 2nd section .background, .feat1, .feat2, .feat3 */
   var getData = function (tag, callback) {
     var request = {
       tag: tag
@@ -97,7 +96,6 @@ var html = {
       type: "GET",
     })
     .done(function(result){
-      // console.log(result);
       callback(result);
     })
     .fail(function(jqXHR, error){
@@ -123,7 +121,7 @@ var html = {
     for(var i=0; i<result.length; i++) {
       var top_crimes = '<ol id="top_crimes_list"><li id=""><a href="crime.html#!DUI"><span>' + result[i].Category + '</span><span class="value-cell"> ' + result[i].arrest_count + '</span></a></li></ol>'
       last_span.append(top_crimes);
-          // console.log(result[i]);
+      // console.log(result[i]);
     };
   };
 
@@ -168,7 +166,20 @@ var html = {
 
 
 /* modal2 features */
-var showModal2 = function() {
+var showModal2 = function(tag, result) {
+  console.log(result);
+  var edited_tag = editTag(tag);
+  console.log(edited_tag);
+
+  // var result_item = '<div class="result-item"><img src="https://s3.amazonaws.com/nfl-arrests/profile-pics/' + edited_tag + '.png" alt="nfl player photo"><ul><li>Name: '+ result[0].Name +'</li><li>Team: '+ result[0].Team +'</li><li>Position: '+ result[0].Position +'</li><li>Last violation date: '+ result[0].Date +'</li><input type="submit" value="show rap sheet" class="btn btn-default" data-popup-open="popup-1"></ul><hr></div>';
+
+  var result_player_item = '<div id="player-container"><div id="player-bio"><div class="player-photo"><img src="https://s3.amazonaws.com/nfl-arrests/profile-pics/' + edited_tag + '.png" width="100" height="100"></div><div class="player-info"><p><strong>Name: </strong><span class="player-name">' + result[0].Name + '&nbsp;&nbsp;</span></p><p><strong>Position</strong>: '+ result[0].Position +'&nbsp;<p><strong>Current Team</strong>: '+ result[0].Team +'</p><p><strong># Of Offenses</strong>: '+ result.length +'</p></div></div></div>';
+
+    // position, current team, # of offenses
+   $('.popup-inner').append(result_player_item);
+    $('.result_player_item').fadeIn();
+    $('.result_player_item').addClass('animated bounceIn');
+
   var animation_name = 'animated zoomInRight';
   var animation_end = 'webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend';
   $('input[data-popup-open="popup-1"]').on('click', function(){
