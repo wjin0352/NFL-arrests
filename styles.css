@@ -15,6 +15,7 @@ body {
   height: 1000px;
   background-color: #fff;
   /*display:none;*/
+  overflow:scroll;
 }
 
 .intro-message h1 {

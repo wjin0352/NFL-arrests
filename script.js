@@ -33,7 +33,8 @@ var html = {
     var result_item = '<div class="result-item"><img src="https://s3.amazonaws.com/nfl-arrests/profile-pics/' + edited_tag + '.png" alt="nfl player photo"><ul><li>Name: '+ result[0].Name +'</li><li>Team: '+ result[0].Team +'</li><li>Position: '+ result[0].Position +'</li><li>Last violation date: '+ result[0].Date +'</li><input type="submit" value="show rap sheet" class="btn btn-default" data-popup-open="popup-1"></ul><hr></div>';
     $('.list-results').append(result_item);
     scrollToAnchor('scroll');
-    $('.result-item').fadeIn(2000);
+    $('.result-item').fadeIn();
+    $('.result-item').addClass('animated bounceIn');
     showModal2();
     // $('.result-item').fadeIn(2000)
     // wait until i append results, then call showModal2() event handler for button click
@@ -183,15 +184,30 @@ var html = {
 
 // modal2 features
 var showModal2 = function() {
+  var animation_name = 'animated zoomInRight';
+  var animation_end = 'webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend';
   $('input[data-popup-open="popup-1"]').on('click', function(){
     $('.popup').fadeIn(1000);
+    $('.popup-inner').addClass(animation_name)
+      // remove binding
+      .on(animation_end, function() {
+        $(this).removeClass(animation_name);
+      });
+
     hideModal2();
   });
 };
 
 var hideModal2 = function() {
+  var animation_name_1 = 'animated zoomOutUp';
+  var animation_end = 'webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend';
   $('[data-popup-close="popup-1"]').on('click', function(){
     $('.popup').fadeOut();
+    // $('.popup').addClass(animation_name_1)
+    //   // remove binding
+    //   .on(animation_end, function() {
+    //     $(this).removeClass(animation_name_1)
+    //   });
   });
 };
 
