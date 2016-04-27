@@ -7,6 +7,7 @@ getData('player', showTopPlayers);
 getInput();
 
 
+
   // $('body').fadeOut(1000);
 
 });
@@ -31,10 +32,23 @@ var html = {
     var edited_tag = editTag(tag);
     var result_item = '<div class="result-item"><img src="https://s3.amazonaws.com/nfl-arrests/profile-pics/' + edited_tag + '.png" alt="nfl player photo"><ul><li>Name: '+ result[0].Name +'</li><li>Team: '+ result[0].Team +'</li><li>Position: '+ result[0].Position +'</li><li>Last violation date: '+ result[0].Date +'</li><input type="submit" value="show rap sheet" class="btn btn-default" data-popup-open="popup-1"></ul><hr></div>';
     $('.list-results').append(result_item);
-    $('.result-item').fadeIn(1000);
-    // wait until i append results, then call showModal2() event handler for button click
+    scrollToAnchor('scroll');
+    $('.result-item').fadeIn(2000);
     showModal2();
+
+    // $('.result-item').fadeIn(2000)
+    // wait until i append results, then call showModal2() event handler for button click
+    // showModal2();
+
+
   }
+
+  var scrollToAnchor = function(id){
+    var aTag = $("a[href='"+ id +"']");
+    $('html,body').animate({scrollTop: aTag.offset().top},'slow');
+  }
+
+
 
   var editTag = function(tag) {
     // give tag a dash inbtwn names to get url for amazon S3 picture.
