@@ -45,8 +45,6 @@ var html = {
     $('html,body').animate({scrollTop: aTag.offset().top},'slow');
   }
 
-
-
   var editTag = function(tag) {
     // give tag a dash inbtwn names to get url for amazon S3 picture.
     var edit = tag.split(" ").join('-');
