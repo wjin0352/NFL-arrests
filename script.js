@@ -4,8 +4,9 @@ fadingBody();
 getData('crime', showTopCrimes);
 getData('team', showTopTeams);
 getData('player', showTopPlayers);
-showModal1();
-showModal2();
+getInput();
+
+
 
   // $('body').fadeOut(1000);
 
@@ -14,28 +15,87 @@ showModal2();
 var html = {
   top_crimes_template: '<h3>Top Crimes</h3><span class="list-heading">Crime:</span><span id="last_crime_span"># Arrests</span>',
   top_teams_template: '<h3>Top Teams</h3><span class="list-heading">Team:</span><span id="last_team_span"># Arrests</span>',
-  top_players_template: '<h3>Top Players</h3><span class="list-heading">Players:</span><span id="last_player_span"># Arrests</span>',
-  result_item: '<div class="result-item"><img src="https://s3.amazonaws.com/nfl-arrests/profile-pics/adam-jones.png" alt="nfl player photo"><ul><li>Name: Adam Jones</li><li>Team: NY Giants</li><li>Position: Line backer</li><li>Last violation date: 01/15/2016</li><input type="submit" value="show rap sheet" class="btn btn-default" data-popup-open="popup-1"></ul><hr></div>'
+  top_players_template: '<h3>Top Players</h3><span class="list-heading">Players:</span><span id="last_player_span"># Arrests</span>'
 };
 
 // list feature
-  var getResultItem = function() {
-
+  var showPlayer = function(tag, result) {
+    console.log(result);
+    if (result.length == 0) {
+      alert(tag + ' has no known offenses.');
+    } else {
+      appendPlayerHtml(tag, result);
+    };
   }
 
-  var showModal1 = function() {
-  $('form.main-user-input').on('submit', function(e) {
-    e.preventDefault();
-    var input = $('#user-input').val();
+  var appendPlayerHtml = function(tag, result) {
+    var edited_tag = editTag(tag);
+    var result_item = '<div class="result-item"><img src="https://s3.amazonaws.com/nfl-arrests/profile-pics/' + edited_tag + '.png" alt="nfl player photo"><ul><li>Name: '+ result[0].Name +'</li><li>Team: '+ result[0].Team +'</li><li>Position: '+ result[0].Position +'</li><li>Last violation date: '+ result[0].Date +'</li><input type="submit" value="show rap sheet" class="btn btn-default" data-popup-open="popup-1"></ul><hr></div>';
+    $('.list-results').append(result_item);
+    scrollToAnchor('scroll');
+    $('.result-item').fadeIn(2000);
+    showModal2();
+    // $('.result-item').fadeIn(2000)
+    // wait until i append results, then call showModal2() event handler for button click
+    // showModal2();
+  }
 
-  });
-}
+  var scrollToAnchor = function(id){
+    var aTag = $("a[href='"+ id +"']");
+    $('html,body').animate({scrollTop: aTag.offset().top},'slow');
+  }
+
+  var editTag = function(tag) {
+    // give tag a dash inbtwn names to get url for amazon S3 picture.
+    var edit = tag.split(" ").join('-');
+    console.log(edit);
+    return edit;
+  }
+
+  // event handler for input box
+  var getInput = function() {
+    $('form.main-user-input').on('submit', function(e) {
+      e.preventDefault();
+      var input = $('#user-input').val();
+      parseInput(input);
+    });
+  }
+
+  var parseInput = function(data) {
+    var input = data.toLowerCase();
+    // console.log(input);
+    getPlayerData(input, showPlayer);
+  }
+
+  var getPlayerData = function(tag, callback) {
+    var request = {
+      tag: tag
+    };
+
+    $.ajax({
+      url: "http://nflarrest.com/api/v1/player/arrests/" + request.tag,
+      data: request,
+      dataType: "json",
+      type: "GET",
+    })
+    .done(function(result){
+      callback(tag, result);
+    })
+    .fail(function(jqXHR, error){
+      console.log(error);
+    });
+  }
+
+// End event handler for input box
+
 
 // $.ajax({
 //   url: "http://NflArrest.com/api/v1/player/arrests/Adam%20Jones",
 //   type: "GET",
 //   success: console.log.bind(console)
 // });
+
+
 
 // 2nd section
     var getData = function (tag, callback) {
