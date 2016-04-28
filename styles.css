@@ -292,6 +292,9 @@ ol {
     position: relative;
     margin: 20px auto;
     width: 50%;
+    background-color: aliceblue;
+    padding: 10px 10px;
+    border-radius: 7px;
   }
 
   .player-photo {
@@ -314,7 +317,10 @@ ol {
 
   .player-offenses {
     display: block;
-    width: 50%;
+    width: 80%;
     text-align: justify;
-    margin: 30px auto;
+    background-color: seashell;
+    padding: 20px 20px;
+    border-radius:7px;
+    margin: 20px auto;
   }
