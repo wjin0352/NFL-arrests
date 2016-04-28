@@ -2,6 +2,12 @@ body {
   color:#8c96a1;
 }
 
+.clearfix:before, .clearfix:after {
+  display:table;
+  clear:both;
+  content:' ';
+}
+
 .header-input {
   margin: 2% auto;
   width: 250px;
@@ -92,9 +98,9 @@ ol {
 
   /* MODAL2 Inner */
   .popup-inner {
-    max-width:1000px;
-    width:80%;
-    height:80%;
+    max-width:800px;
+    width:100%;
+    height:100%;
     padding:40px;
     position:absolute;
     top:50%;
@@ -104,6 +110,26 @@ ol {
     box-shadow:0px 2px 6px rgba(0,0,0,1);
     border-radius:3px;
     background:#fff;
+    overflow:scroll;
+  }
+
+  .popup-inner input {
+    margin: -10px 0 10px 0;
+  }
+
+  .popup-middle {
+    max-width: 800px;
+    width: 80%;
+    height: 80%;
+    padding: 40px;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    -webkit-transform: translate(-50%, -50%);
+    transform: translate(-50%, -50%);
+    box-shadow: 0px 2px 6px rgba(0,0,0,1);
+    border-radius: 3px;
+    background: #fff;
   }
 
   /* Close Button */
@@ -113,8 +139,9 @@ ol {
     padding-top:4px;
     display:inline-block;
     position:absolute;
-    top:0px;
-    right:0px;
+    top: 0px;
+    right: 0px;
+    z-index: 1;
     transition:ease 0.25s all;
     -webkit-transform:translate(50%, -50%);
     transform:translate(50%, -50%);
@@ -253,7 +280,7 @@ ol {
 
   /* list feature */
     .result-item {
-      display:none;
+      /*display:none;*/
     }
 
   /* modal list feature */
@@ -262,26 +289,32 @@ ol {
     }
 
   #player-bio {
-    float: left;
     position: relative;
+    margin: 20px auto;
+    width: 50%;
   }
 
   .player-photo {
-    /*float: left;*/
+    float:left;
     display: inline-block;
     margin: 0px 10px 0 0;
   }
 
   .player-photo img {
-    float: left;
     border: 1px solid #cecece;
     padding: 0px;
     background: white;
+    margin: 0 12px 0 0;
   }
 
   .player-info {
-    float: right;
-    padding-bottom: 10px;
     margin: 20px 29px;
     text-align: left;
+  }
+
+  .player-offenses {
+    display: block;
+    width: 50%;
+    text-align: justify;
+    margin: 30px auto;
   }

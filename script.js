@@ -151,7 +151,6 @@ var html = {
     // loopResultsHtml(result, id, attribute, last_span);
   };
 
-  //  This doesnt work?!  why cant i pass in variables as parameters and run them on objects
   var loopResultsHtml = function(result, id, attribute, last_span) {
     var i = id;
     // console.log(result[0].i);
@@ -169,22 +168,21 @@ var html = {
 var showModal2 = function(tag, result) {
   console.log(result);
   var edited_tag = editTag(tag);
-  console.log(edited_tag);
 
-  // var result_item = '<div class="result-item"><img src="https://s3.amazonaws.com/nfl-arrests/profile-pics/' + edited_tag + '.png" alt="nfl player photo"><ul><li>Name: '+ result[0].Name +'</li><li>Team: '+ result[0].Team +'</li><li>Position: '+ result[0].Position +'</li><li>Last violation date: '+ result[0].Date +'</li><input type="submit" value="show rap sheet" class="btn btn-default" data-popup-open="popup-1"></ul><hr></div>';
+  var result_player_item = '<div id="player-container" class="append_to"><div id="player-bio" class="clearfix"><div class="player-photo"><img src="https://s3.amazonaws.com/nfl-arrests/profile-pics/' + edited_tag + '.png" width="100" height="100"></div><div class="player-info"><p><strong>Name: </strong><span class="player-name">' + result[0].Name + '&nbsp;&nbsp;</span></p><p><strong>Position</strong>: '+ result[0].Position +'&nbsp;<p><strong>Current Team</strong>: '+ result[0].Team +'</p><p><strong># Of Offenses</strong>: '+ result.length +'</p></div></div></div>';
 
-  var result_player_item = '<div id="player-container"><div id="player-bio"><div class="player-photo"><img src="https://s3.amazonaws.com/nfl-arrests/profile-pics/' + edited_tag + '.png" width="100" height="100"></div><div class="player-info"><p><strong>Name: </strong><span class="player-name">' + result[0].Name + '&nbsp;&nbsp;</span></p><p><strong>Position</strong>: '+ result[0].Position +'&nbsp;<p><strong>Current Team</strong>: '+ result[0].Team +'</p><p><strong># Of Offenses</strong>: '+ result.length +'</p></div></div></div>';
-
-    // position, current team, # of offenses
-   $('.popup-inner').append(result_player_item);
-    $('.result_player_item').fadeIn();
-    $('.result_player_item').addClass('animated bounceIn');
+  // position, current team, # of offenses
+  $('.popup-inner').append(result_player_item);
+  // $('.result_player_item').fadeIn();
+  // $('.result_player_item').addClass('animated bounceIn');
+  var last_element = $('#player-container');
+  showPlayerOffenses(last_element, result);
 
   var animation_name = 'animated zoomInRight';
   var animation_end = 'webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend';
   $('input[data-popup-open="popup-1"]').on('click', function(){
     $('.popup').fadeIn(1000);
-    $('.popup-inner').addClass(animation_name)
+    $('.popup-middle').addClass(animation_name)
       // remove binding
       .on(animation_end, function() {
         $(this).removeClass(animation_name);
@@ -193,6 +191,16 @@ var showModal2 = function(tag, result) {
     hideModal2();
   });
 };
+
+var showPlayerOffenses = function(element, result) {
+
+  for(var i=0; i<result.length; i++) {
+    var list_offenses = '<hr><div class="player-offenses"><div class="player-offense-info">' +
+      '<p><strong>Offense: </strong><span>' + result[i].Category + '&nbsp;&nbsp;</span></p><p><strong>Date</strong>: '+ result[i].Date +'&nbsp;<p><strong>Description</strong>: '+ result[0].Description +'</p><p><strong>Encounter</strong>: '+ result[i].Encounter +'</p><p><strong>Outcome</strong>: '+ result[i].Outcome +'</p><p><strong>Position</strong>: '+ result[i].Position +'</p><p><strong>Team City</strong>: '+ result[i].Team +'</p>'
+      + '</div></div>'
+    element.append(list_offenses);
+  };
+}
 
 var hideModal2 = function() {
   var animation_name_1 = 'animated zoomOutUp';
