@@ -14,7 +14,6 @@ var html = {
 
 /* Header input & .list feature section3 */
   var showPlayer = function(tag, result) {
-    // console.log(result);
     if (result.length == 0) {
       alert(tag + ' has no known offenses.');
     } else {
