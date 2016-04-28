@@ -12,7 +12,7 @@
     <header>
       <div class="header-input">
         <form class="main-user-input">
-          <input type="text" id="user-input">
+          <input type="text" id="user-input" placeholder="player name">
           <input type="submit" value="submit" class="btn btn-default">
         </form>
       </div>
@@ -25,6 +25,14 @@
           <h1>Play fantasy football?  Find out if your favorite NFL players have been outside the law.</h1>
         </div>
       <!-- end first section -->
+
+      <!-- 3rd section -->
+        <div class="list">
+          <a href="scroll"></a>
+          <div class="list-results">
+          </div>
+        </div>
+      <!-- End 3rd section -->
 
       <!-- 2nd section -->
         <div class="background">
@@ -40,25 +48,19 @@
         </div>
       <!-- End 2nd section -->
 
-      <!-- 3rd section -->
-        <div class="list">
-          <a href="scroll"></a>
-          <div class="list-results">
-          </div>
-        </div>
-      <!-- End 3rd section -->
-
       <!-- Footer section -->
         <div class="wrapper">
           <footer class="footer">
 
             <!-- hidden modal html START -->
               <div class="popup" data-popup="popup-1">
-                <div class="popup-inner">
-                  <h2>some stuff! modal!</h2>
-                  <p>more details</p>
-                  <input type="submit" value="close" class="btn btn-default" data-popup-close="popup-1">
+                <div class="popup-middle">
                   <a class="popup-close" data-popup-close="popup-1" href="#">x</a>
+                  <div class="popup-inner">
+                    <input type="submit" value="close" class="btn btn-default" data-popup-close="popup-1">
+
+                    <hr>
+                  </div>
                 </div>
               </div>
             <!-- hidden modal html END -->
