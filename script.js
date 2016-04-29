@@ -118,7 +118,7 @@ var html = {
     var last_span = $('#last_crime_span');
 
     for(var i=0; i<result.length; i++) {
-      var top_crimes = '<ol id="top_crimes_list"><li id=""><a href="crime.html#!DUI"><span>' + result[i].Category + '</span><span class="value-cell"> ' + result[i].arrest_count + '</span></a></li></ol>'
+      var top_crimes = '<ol id="top_crimes_list"><li id=""><span>' + result[i].Category + '</span><span class="value-cell"> ' + result[i].arrest_count + '</span></a></li></ol>'
       last_span.append(top_crimes);
       // console.log(result[i]);
     };
@@ -130,7 +130,7 @@ var html = {
     var last_span = $('#last_team_span');
 
     for(var i=0; i<result.length; i++) {
-      var top_teams = '<ol id="top_teams_list"><li id="top_team_0"><a href="team.html#!DUI"><span>'+ result[i].Team +' </span><span class="value-cell">'+ result[i].arrest_count +'</span></a></li></ol>';
+      var top_teams = '<ol id="top_teams_list"><li id="top_team_0"><span>'+ result[i].Team +' </span><span class="value-cell">'+ result[i].arrest_count +'</span></a></li></ol>';
       last_span.append(top_teams);
     };
   };
