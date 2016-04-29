@@ -206,11 +206,7 @@ var hideModal2 = function() {
   var animation_end = 'webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend';
   $('[data-popup-close="popup-1"]').on('click', function(){
     $('.popup').fadeOut();
-    // $('.popup').addClass(animation_name_1)
-    //   // remove binding
-    //   .on(animation_end, function() {
-    //     $(this).removeClass(animation_name_1)
-    //   });
+    $('.popup-inner').children('#player-container').remove();
   });
 };
 
