@@ -179,8 +179,9 @@ ol {
     color: white;
     /*padding: 80px 20px;*/
     margin:0 auto;
-    /*width:1000px;*/
+    text-align: center;
   }
+
 
   header {
     padding: 20px 20px;
@@ -264,7 +265,7 @@ ol {
     width:50%;
     right:0px;
     top:0px;
-    overflow: hidden;
+    overflow: scroll;
   }
 
   .feat1:hover, .feat2:hover, .feat3:hover {
