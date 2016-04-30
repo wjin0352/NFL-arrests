@@ -11,9 +11,24 @@ var initialize = function() {
 }
 
 var html = {
-  top_crimes_template: '<h3>Top Crimes</h3><span class="list-heading">Crime:</span><span id="last_crime_span"># Arrests</span>',
-  top_teams_template: '<h3>Top Teams</h3><span class="list-heading">Team:</span><span id="last_team_span"># Arrests</span>',
-  top_players_template: '<h3>Top Players</h3><span class="list-heading">Players:</span><span id="last_player_span"># Arrests</span>'
+  top_crimes_template:
+    [
+      '<h3>Top Crimes</h3>',
+        '<span class="list-heading">Crime:</span>',
+      '<span id="last_crime_span"># Arrests</span>'
+    ].join(""),
+  top_teams_template:
+    [
+      '<h3>Top Teams</h3>',
+        '<span class="list-heading">Team:</span>',
+      '<span id="last_team_span"># Arrests</span>'
+    ].join(""),
+  top_players_template:
+    [
+      '<h3>Top Players</h3>',
+        '<span class="list-heading">Players:</span>',
+      '<span id="last_player_span"># Arrests</span>'
+    ].join("")
 };
 
 /* section3 */
@@ -47,7 +62,21 @@ var html = {
 
   var appendPlayerHtml = function(tag, result) {
     var edited_tag = editTag(tag);
-    var result_item = '<div class="result-item"><img src="https://s3.amazonaws.com/nfl-arrests/profile-pics/' + edited_tag + '.png" alt="nfl player photo"><ul><li>Name: '+ result[0].Name +'</li><li>Team: '+ result[0].Team +'</li><li>Position: '+ result[0].Position +'</li><li>Last violation date: '+ result[0].Date +'</li><input type="submit" value="show rap sheet" class="btn btn-default" data-popup-open="popup-1"></ul><hr></div>';
+    var result_item =
+      [
+        '<div class="result-item">',
+          '<img src="https://s3.amazonaws.com/nfl-arrests/profile-pics/' + edited_tag + '.png" alt="nfl player photo">',
+          '<ul>',
+            '<li>Name: '+ result[0].Name +'</li>',
+            '<li>Team: '+ result[0].Team +'</li>',
+            '<li>Position: '+ result[0].Position +'</li>',
+            '<li>Last violation date: '+ result[0].Date +'</li>',
+            '<input type="submit" value="show rap sheet" class="btn btn-default" data-popup-open="popup-1">',
+          '</ul>',
+          '<hr>',
+        '</div>'
+      ].join("");
+
     $('.list-results').append(result_item);
     scrollToAnchor('scroll');
     $('.result-item').fadeIn();
@@ -84,7 +113,23 @@ var html = {
   var showModal = function(tag, result) {
     var edited_tag = editTag(tag);
     // setup the html to append to .popup modal
-      var result_player_item = '<div id="player-container" class="append_to"><div id="player-bio" class="clearfix"><div class="player-photo"><img src="https://s3.amazonaws.com/nfl-arrests/profile-pics/' + edited_tag + '.png" width="100" height="100"></div><div class="player-info"><p><strong>Name: </strong><span class="player-name">' + result[0].Name + '&nbsp;&nbsp;</span></p><p><strong>Position</strong>: '+ result[0].Position +'&nbsp;<p><strong>Current Team</strong>: '+ result[0].Team +'</p><p><strong># Of Offenses</strong>: '+ result.length +'</p></div></div></div>';
+      var result_player_item =
+        [
+          '<div id="player-container" class="append_to">',
+            '<div id="player-bio" class="clearfix">',
+              '<div class="player-photo">',
+                '<img src="https://s3.amazonaws.com/nfl-arrests/profile-pics/' + edited_tag + '.png" width="100" height="100">',
+              '</div>',
+              '<div class="player-info">',
+                '<p><strong>Name: </strong><span class="player-name">' + result[0].Name + '&nbsp;&nbsp;</span></p>',
+                '<p><strong>Position</strong>: '+ result[0].Position +'&nbsp;</p>',
+                '<p><strong>Current Team</strong>: '+ result[0].Team +'</p>',
+                '<p><strong># Of Offenses</strong>: '+ result.length +'</p>',
+              '</div>',
+            '</div>',
+          '</div>'
+        ].join("");
+
     // append html to the modal
       $('.popup-inner').append(result_player_item);
     // find the last element so we can append the player offenses next
@@ -109,9 +154,20 @@ var html = {
   var showPlayerOffenses = function(element, result) {
     // loops through the rest of the objects to create the offenses list
     for(var i=0; i<result.length; i++) {
-      var list_offenses = '<hr><div class="player-offenses"><div class="player-offense-info">' +
-        '<p><strong>Offense: </strong><span>' + result[i].Category + '&nbsp;&nbsp;</span></p><p><strong>Date</strong>: '+ result[i].Date +'&nbsp;<p><strong>Description</strong>: '+ result[0].Description +'</p><p><strong>Encounter</strong>: '+ result[i].Encounter +'</p><p><strong>Outcome</strong>: '+ result[i].Outcome +'</p><p><strong>Position</strong>: '+ result[i].Position +'</p><p><strong>Team City</strong>: '+ result[i].Team +'</p>'
-        + '</div></div>'
+      var list_offenses =
+        [
+          '<hr>',
+          '<div class="player-offenses">',
+            '<div class="player-offense-info">' +
+              '<p><strong>Offense: </strong><span>' + result[i].Category + '&nbsp;&nbsp;</span></p>',
+              '<p><strong>Date</strong>: '+ result[i].Date +'&nbsp;',
+              '<p><strong>Description</strong>: '+ result[0].Description +'</p>',
+              '<p><strong>Encounter</strong>: '+ result[i].Encounter +'</p>',
+              '<p><strong>Outcome</strong>: '+ result[i].Outcome +'</p>',
+              '<p><strong>Position</strong>: '+ result[i].Position +'</p><p><strong>Team City</strong>: '+ result[i].Team +'</p>',
+            '</div>',
+          '</div>'
+        ].join("");
       element.append(list_offenses);
     };
   }
@@ -155,7 +211,31 @@ var html = {
   var appendPlayerHtmlAgain = function(tag, result) {
     var edited_tag = editTag(tag);
     // create the html to append
-    var result_player_item = '<div id="player-container" class="append_to"><div id="player-bio" class="clearfix"><div class="player-photo"><img src="https://s3.amazonaws.com/nfl-arrests/profile-pics/' + edited_tag + '.png" width="100" height="100"></div><div class="player-info"><p><strong>Name: </strong><span class="player-name">' + result[0].Name + '&nbsp;&nbsp;</span></p><p><strong>Position</strong>: '+ result[0].Position +'&nbsp;<p><strong>Current Team</strong>: '+ result[0].Team +'</p><p><strong># Of Offenses</strong>: '+ result.length +'</p></div></div></div>';
+    var result_player_item =
+      [
+        '<div id="player-container" class="append_to">',
+          '<div id="player-bio" class="clearfix">',
+            '<div class="player-photo">',
+              '<img src="https://s3.amazonaws.com/nfl-arrests/profile-pics/' + edited_tag + '.png" width="100" height="100">',
+            '</div>',
+            '<div class="player-info">',
+              '<p>',
+                '<strong>Name: </strong>',
+                '<span class="player-name">' + result[0].Name + '&nbsp;&nbsp;</span>',
+              '</p>',
+              '<p>',
+                '<strong>Position</strong>: '+ result[0].Position +'&nbsp;',
+                '<p>',
+                  '<strong>Current Team</strong>: '+ result[0].Team,
+                '</p>',
+                '<p>',
+                  '<strong># Of Offenses</strong>: '+ result.length,
+                '</p>',
+              '</p>',
+            '</div>',
+          '</div>',
+        '</div>',
+      ].join("");
 
     // append newly created html to the popup .popup-inner
     $('.popup-inner').append(result_player_item);
@@ -212,7 +292,15 @@ var html = {
     appendTopCrimesTemplate();
     var last_span = $('#last_crime_span');
     for(var i=0; i<result.length; i++) {
-      var top_crimes = '<ol id="top_crimes_list"><li id=""><span>' + result[i].Category + '</span><span class="value-cell"> ' + result[i].arrest_count + '</span></a></li></ol>'
+      var top_crimes =
+        [
+          '<ol id="top_crimes_list">',
+            '<li id="">',
+              '<span>' + result[i].Category + '</span>',
+              '<span class="value-cell"> ' + result[i].arrest_count + '</span>',
+            '</li>',
+          '</ol>',
+        ].join("");
       last_span.append(top_crimes);
     };
   };
@@ -221,7 +309,15 @@ var html = {
     appendTopTeamsTemplate();
     var last_span = $('#last_team_span');
     for(var i=0; i<result.length; i++) {
-      var top_teams = '<ol id="top_teams_list"><li id="top_team_0"><span>'+ result[i].Team +' </span><span class="value-cell">'+ result[i].arrest_count +'</span></a></li></ol>';
+      var top_teams =
+        [
+          '<ol id="top_teams_list">',
+            '<li id="top_team_0">',
+              '<span>'+ result[i].Team +' </span>',
+              '<span class="value-cell">'+ result[i].arrest_count +'</span>',
+            '</li>',
+          '</ol>',
+        ].join("");
       last_span.append(top_teams);
     };
   };
@@ -229,7 +325,17 @@ var html = {
   var showTopPlayers = function(result) {
     appendTopPlayersTemplate();
     var last_span = $('#last_player_span')
-    var top_players = '<ol id="top_players_list"><li id="top_player_0"><a href="player.html#!DUI"><span>DUI</span><span class="value-cell">205</span></a></li></ol>'
+    var top_players =
+      [
+        '<ol id="top_players_list">',
+          '<li id="top_player_0">',
+            '<a href="player.html#!DUI">',
+              '<span>DUI</span>',
+              '<span class="value-cell">205</span>',
+            '</a>',
+          '</li>',
+        '</ol>',
+      ].join("");
     for(var i=0; i<result.length; i++) {
       var top_teams = '<ol id="top_teams_list"><li id="top_team_0"><a href="team.html#!DUI"><span>'+ result[i].Name +' </a><span class="value-cell">'+ result[i].arrest_count +'</span></li></ol>';
       last_span.append(top_teams);
@@ -239,7 +345,17 @@ var html = {
   var loopResultsHtml = function(result, id, attribute, last_span) {
     var i = id;
     for(var i=0; i<result.length; i++) {
-      var top_teams = '<ol id="top_' + id +'"><li"><a href="team.html#!DUI"><span>'+ result[i].attr +'</span><span class="value-cell">'+ result[i].arrest_count +'</span></a></li></ol>';
+      var top_teams =
+        [
+          '<ol id="top_' + id +'">',
+            '<li">',
+              '<a href="team.html#!DUI">',
+                '<span>'+ result[i].attr +'</span>',
+                '<span class="value-cell">'+ result[i].arrest_count +'</span>',
+              '</a>',
+            '</li>',
+          '</ol>',
+        ].join("");
       last_span.append(top_teams);
     }
   };
