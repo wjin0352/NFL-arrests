@@ -53,7 +53,7 @@ var html = {
     $('.result-item').fadeIn();
     $('.result-item').addClass('animated bounceIn');
     // click event handler for button on the newly appended list
-    showModal2(tag, result);
+    showModal(tag, result);
     // click event handler to be able to click on list item again
     showModalAgain();
   }
@@ -81,7 +81,7 @@ var html = {
     });
   }
 
-  var showModal2 = function(tag, result) {
+  var showModal = function(tag, result) {
     var edited_tag = editTag(tag);
     // setup the html to append to .popup modal
       var result_player_item = '<div id="player-container" class="append_to"><div id="player-bio" class="clearfix"><div class="player-photo"><img src="https://s3.amazonaws.com/nfl-arrests/profile-pics/' + edited_tag + '.png" width="100" height="100"></div><div class="player-info"><p><strong>Name: </strong><span class="player-name">' + result[0].Name + '&nbsp;&nbsp;</span></p><p><strong>Position</strong>: '+ result[0].Position +'&nbsp;<p><strong>Current Team</strong>: '+ result[0].Team +'</p><p><strong># Of Offenses</strong>: '+ result.length +'</p></div></div></div>';
