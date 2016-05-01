@@ -236,7 +236,7 @@ ol {
 
 
   .feat1 {
-    background-color: #C04044;
+    background-color: #4044C0;
     height:400px;
     width:50%;
     border-top: 1px solid #fff;
@@ -258,7 +258,7 @@ ol {
   }
 
   .feat3 {
-    background-color: #626262;
+    background-color: #C04044;
     border-top: 2px solid #fff;
     float:right;
     height:800px;
@@ -266,6 +266,33 @@ ol {
     right:0px;
     top:0px;
     overflow: scroll;
+  }
+
+  .top_crimes {
+    border-bottom: 0.01px solid white;
+  }
+
+  span#last_crime_span {
+      margin-left: 20%;
+  }
+
+  div span.value-cell {
+
+  }
+/*  span.value-cell, span.team-cell, span.player-cell {
+    margin-left: 26%;
+  }
+
+  span.name-cell {
+    margin-left: -6%
+  }
+*/
+  .top_teams {
+    border-bottom: 0.01px solid white;
+  }
+
+  .top_players {
+    border-bottom: 0.01px solid white;
   }
 
   #top_teams_list, #top_team_0 a {

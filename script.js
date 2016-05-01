@@ -8,24 +8,28 @@ var initialize = function() {
   getData('team', showTopTeams);
   getData('player', showTopPlayers);
   getInputPlayer();
+  attachHideModalListener();
 }
+
+/* stores results from api call */
+var listResults = {};
 
 var html = {
   top_crimes_template:
     [
-      '<h3>Top Crimes</h3>',
+      '<div class="top_crimes"><h3>Top Crimes</h3></div>',
         '<span class="list-heading">Crime:</span>',
       '<span id="last_crime_span"># Arrests</span>'
     ].join(""),
   top_teams_template:
     [
-      '<h3>Top Teams</h3>',
+      '<div class="top_teams"><h3>Top Teams</h3></div>',
         '<span class="list-heading">Team:</span>',
       '<span id="last_team_span"># Arrests</span>'
     ].join(""),
   top_players_template:
     [
-      '<h3>Top Players</h3>',
+      '<div class="top_players"><h3>Top Players</h3></div>',
         '<span class="list-heading">Players:</span>',
       '<span id="last_player_span"># Arrests</span>'
     ].join("")
@@ -47,49 +51,15 @@ var html = {
   var getInputPlayer = function() {
     $('form.main-user-input').on('submit', function(e) {
       e.preventDefault();
-      var input = $('#user-input').val();
-      parseInput(input, showPlayer);
+      var input = parseInput($('#user-input').val());
+      if (!listResults.hasOwnProperty(input)) {
+        getPlayerData(input, showPlayer);
+      }
     });
   }
 
-  var showPlayer = function(tag, result) {
-    if (result.length == 0) {
-      alert(tag + ' has no known offenses.');
-    } else {
-      appendPlayerHtml(tag, result);
-    };
-  }
-
-  var appendPlayerHtml = function(tag, result) {
-    var edited_tag = editTag(tag);
-    var result_item =
-      [
-        '<div class="result-item">',
-          '<img src="https://s3.amazonaws.com/nfl-arrests/profile-pics/' + edited_tag + '.png" alt="nfl player photo">',
-          '<ul>',
-            '<li>Name: '+ result[0].Name +'</li>',
-            '<li>Team: '+ result[0].Team +'</li>',
-            '<li>Position: '+ result[0].Position +'</li>',
-            '<li>Last violation date: '+ result[0].Date +'</li>',
-            '<input type="submit" value="show rap sheet" class="btn btn-default" data-popup-open="popup-1">',
-          '</ul>',
-          '<hr>',
-        '</div>'
-      ].join("");
-
-    $('.list-results').append(result_item);
-    scrollToAnchor('scroll');
-    $('.result-item').fadeIn();
-    $('.result-item').addClass('animated bounceIn');
-    // click event handler for button on the newly appended list
-    showModal(tag, result);
-    // click event handler to be able to click on list item again
-    showModalAgain();
-  }
-
-  var parseInput = function(data, callback) {
-    var input = data.toLowerCase();
-    getPlayerData(input, callback);
+  var parseInput = function(data) {
+    return data.toLowerCase();
   }
 
   var getPlayerData = function(tag, callback) {
@@ -103,6 +73,7 @@ var html = {
       type: "GET",
     })
     .done(function(result){
+      listResults[tag] = result;
       callback(tag, result);
     })
     .fail(function(jqXHR, error){
@@ -110,107 +81,52 @@ var html = {
     });
   }
 
-  var showModal = function(tag, result) {
-    var edited_tag = editTag(tag);
-    // setup the html to append to .popup modal
-      var result_player_item =
-        [
-          '<div id="player-container" class="append_to">',
-            '<div id="player-bio" class="clearfix">',
-              '<div class="player-photo">',
-                '<img src="https://s3.amazonaws.com/nfl-arrests/profile-pics/' + edited_tag + '.png" width="100" height="100">',
-              '</div>',
-              '<div class="player-info">',
-                '<p><strong>Name: </strong><span class="player-name">' + result[0].Name + '&nbsp;&nbsp;</span></p>',
-                '<p><strong>Position</strong>: '+ result[0].Position +'&nbsp;</p>',
-                '<p><strong>Current Team</strong>: '+ result[0].Team +'</p>',
-                '<p><strong># Of Offenses</strong>: '+ result.length +'</p>',
-              '</div>',
-            '</div>',
-          '</div>'
-        ].join("");
-
-    // append html to the modal
-      $('.popup-inner').append(result_player_item);
-    // find the last element so we can append the player offenses next
-    var last_element = $('#player-container');
-    // get the rest of the results by looping through the objects of result, and set up html to append to last element
-    showPlayerOffenses(last_element, result);
-
-    // Event handler for show rap sheet button, and animation effects below
-    var animation_name = 'animated zoomInRight';
-    var animation_end = 'webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend';
-    $('input[data-popup-open="popup-1"]').one('click', function(){
-      $('.popup').fadeIn(1000);
-      $('.popup-middle').addClass(animation_name)
-        // remove binding
-        .on(animation_end, function() {
-          $(this).removeClass(animation_name);
-        });
-      hideModal2();
-    });
-  };
-
-  var showPlayerOffenses = function(element, result) {
-    // loops through the rest of the objects to create the offenses list
-    for(var i=0; i<result.length; i++) {
-      var list_offenses =
-        [
-          '<hr>',
-          '<div class="player-offenses">',
-            '<div class="player-offense-info">' +
-              '<p><strong>Offense: </strong><span>' + result[i].Category + '&nbsp;&nbsp;</span></p>',
-              '<p><strong>Date</strong>: '+ result[i].Date +'&nbsp;',
-              '<p><strong>Description</strong>: '+ result[0].Description +'</p>',
-              '<p><strong>Encounter</strong>: '+ result[i].Encounter +'</p>',
-              '<p><strong>Outcome</strong>: '+ result[i].Outcome +'</p>',
-              '<p><strong>Position</strong>: '+ result[i].Position +'</p><p><strong>Team City</strong>: '+ result[i].Team +'</p>',
-            '</div>',
-          '</div>'
-        ].join("");
-      element.append(list_offenses);
+  var showPlayer = function(tag, result) {
+    if (result.length == 0) {
+      alert(tag + ' has no known offenses.');
+    } else {
+      createPlayerHtml(tag);
+      appendPlayerHtml(tag);
+      attachModalListener(tag);
+      getModalPlayerItem(tag);
+      getModalPlayerOffenses(tag);
     };
   }
 
-  var hideModal2 = function() {
-    $('[data-popup-close="popup-1"]').on('click', function(){
-      $('.popup').fadeOut(1000);
-      // on the close event, we remove the div#player-container and its contents.
-      $('.popup-inner').children('#player-container').remove();
-    });
-  };
-
-  var showModalAgain = function() {
-    $('input[value="show rap sheet"]').on('click', function (e) {
-      var name = $(this).siblings('li').first().text().split(': ')[1].toLowerCase();
-      // parse the name
-        editTag(name);
-      // ajax call
-      repeatPlayerData(name);
-
-      console.log('hello');
-    });
-  }
-
-  var repeatPlayerData = function(name) {
-    $.ajax({
-      url: "http://nflarrest.com/api/v1/player/arrests/" + name,
-      data: name,
-      dataType: "json",
-      type: "GET",
-    })
-    .done(function(result){
-      appendPlayerHtmlAgain(name, result);
-      // return result; this gave me undefined on the other function! why?
-    })
-    .fail(function(jqXHR, error) {
-      console.log(error);
-    });
-  }
-
-  var appendPlayerHtmlAgain = function(tag, result) {
+  var createPlayerHtml = function(tag) {
     var edited_tag = editTag(tag);
-    // create the html to append
+    // item for main page .list
+    var result_item =
+      [
+        '<div class="result-item">',
+          '<img src="https://s3.amazonaws.com/nfl-arrests/profile-pics/' + edited_tag + '.png" alt="nfl player photo">',
+          '<ul>',
+            '<li>Name: '+ listResults[tag][0].Name +'</li>',
+            '<li>Team: '+ listResults[tag][0].Team +'</li>',
+            '<li>Position: '+ listResults[tag][0].Position +'</li>',
+            '<li>Last violation date: '+ listResults[tag][0].Date +'</li>',
+            '<input type="submit" value="show rap sheet" data-player="'+listResults[tag][0].Name.toLowerCase()+'" class="btn btn-default" data-popup-open="popup-1">',
+          '</ul>',
+          '<hr>',
+        '</div>'
+      ].join("");
+    listResults[tag]['listItem'] = result_item;
+  }
+
+  var appendPlayerHtml = function(tag) {
+    $('.list-results').append(listResults[tag]['listItem']);
+    scrollToAnchor('scroll');
+    $('.result-item').fadeIn();
+    $('.result-item').addClass('animated slideInUp');
+    // click event handler for button on the newly appended list
+
+    // showModal(tag);
+    // click event handler to be able to click on list item again
+    // showModalAgain();
+  }
+
+  var getModalPlayerItem = function(tag) {
+    var edited_tag = editTag(tag);
     var result_player_item =
       [
         '<div id="player-container" class="append_to">',
@@ -219,44 +135,249 @@ var html = {
               '<img src="https://s3.amazonaws.com/nfl-arrests/profile-pics/' + edited_tag + '.png" width="100" height="100">',
             '</div>',
             '<div class="player-info">',
-              '<p>',
-                '<strong>Name: </strong>',
-                '<span class="player-name">' + result[0].Name + '&nbsp;&nbsp;</span>',
-              '</p>',
-              '<p>',
-                '<strong>Position</strong>: '+ result[0].Position +'&nbsp;',
-                '<p>',
-                  '<strong>Current Team</strong>: '+ result[0].Team,
-                '</p>',
-                '<p>',
-                  '<strong># Of Offenses</strong>: '+ result.length,
-                '</p>',
-              '</p>',
+              '<p><strong>Name: </strong><span class="player-name">' + listResults[tag][0].Name + '&nbsp;&nbsp;</span></p>',
+              '<p><strong>Position</strong>: '+ listResults[tag][0].Position +'&nbsp;</p>',
+              '<p><strong>Current Team</strong>: '+ listResults[tag][0].Team +'</p>',
+              '<p><strong># Of Offenses</strong>: '+ listResults[tag].length +'</p>',
             '</div>',
           '</div>',
-        '</div>',
+        '</div>'
       ].join("");
 
-    // append newly created html to the popup .popup-inner
-    $('.popup-inner').append(result_player_item);
+      // save to listResults object for player
+      listResults[tag]['modalIntro'] = result_player_item;
+      // append html to the modal
+
+      // find the last element so we can append the player offenses next
+
+
+  }
+
+  var getModalPlayerOffenses = function(tag) {
     var last_element = $('#player-container');
+    var data = [];
+    listResults[tag]['modalOffenses'] = [];
+    for(var i=0; i<listResults[tag].length; i++) {
+        var list_offenses =
+          ['<hr>',
+            '<div class="player-offenses">',
+              '<div class="player-offense-info">' +
+                '<p><strong>Offense: </strong><span>' + listResults[tag][i].Category + '&nbsp;&nbsp;</span></p>',
+                '<p><strong>Date</strong>: '+ listResults[tag][i].Date +'&nbsp;',
+                '<p><strong>Description</strong>: '+ listResults[tag][i].Description +'</p>',
+                '<p><strong>Encounter</strong>: '+ listResults[tag][i].Encounter +'</p>',
+                '<p><strong>Outcome</strong>: '+ listResults[tag][i].Outcome +'</p>',
+                '<p><strong>Position</strong>: '+ listResults[tag][i].Position +'</p><p><strong>Team City</strong>: '+ listResults[tag][i].Team +'</p>',
+              '</div>',
+            '</div>'
+          ].join("");
 
-    // get the rest of the offenses list from result
-    showPlayerOffenses(last_element, result);
-      var animation_name = 'animated zoomInRight';
+      data.push(list_offenses);
+    };
+    listResults[tag]['modalOffenses'] = data
+    // event handler for modal
+  }
+
+  var populateModal = function(tag) {
+    $('.popup-inner').html(listResults[tag]['modalIntro']);
+    $('#player-container').append(listResults[tag]['modalOffenses'].join(""));
+  }
+
+  var attachModalListener = function(tag) {
+      // Event handler for show rap sheet button, and animation effects below
+      var animation_name = 'animated zoomIn';
       var animation_end = 'webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend';
+      $('input[data-player="'+tag+'"]').on('click', function(){
+        populateModal(tag);
+        $('.popup').fadeIn(1000);
+        $('.popup-middle').addClass(animation_name)
+          // remove binding
+          .on(animation_end, function() {
+            $(this).removeClass(animation_name);
+          });
+        // showModalInMemory();
+      });
+    }
 
-    // create event handler for player rap sheet button
-    $('input[data-popup-open="popup-1"]').one('click', function(){
-      $('.popup').fadeIn(1000);
-      $('.popup-middle').addClass(animation_name)
-        // remove binding
-        .on(animation_end, function() {
-          $(this).removeClass(animation_name);
-        });
-      hideModal2();
+  // var showModalInMemory = function() {
+  //   $('input[data-popup-open="popup-1"]').on('click', function() {
+  //     var name = $(this).siblings('li').first().text().split(': ')[1].toLowerCase();
+  //     // parse the name
+  //     console.log(listResults[name]['modalOffenses']);
+  //     // reattach modalIntro
+  //     $('.popup-inner').append(listResults[name]['modalIntro']);
+  //     // reattach modalOffenses
+  //     var element = $('#player-container');
+  //     element.append(listResults[name]['modalOffenses']);
+  //     // show the popup modal
+  //     var animation_name = 'animated zoomIn';
+  //     var animation_end = 'webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend';
+  //     $('.popup').fadeIn(1000);
+  //     $('.popup-middle').addClass(animation_name)
+  //       // remove binding
+  //       .on(animation_end, function() {
+  //         $(this).removeClass(animation_name);
+  //       });
+  //     hideModal();
+  //   });
+  // }
+
+  var attachHideModalListener = function() {
+    $('[data-popup-close="popup-1"]').on('click', function(){
+      $('.popup').fadeOut(1000);
+      // on the close event, we remove the div#player-container and its contents.
+      $('.popup-inner').children('#player-container').remove();
     });
   };
+
+
+      // var result_player_item =
+      // [
+      //   '<div id="player-container" class="append_to">',
+      //     '<div id="player-bio" class="clearfix">',
+      //       '<div class="player-photo">',
+      //         '<img src="https://s3.amazonaws.com/nfl-arrests/profile-pics/' + edited_tag + '.png" width="100" height="100">',
+      //       '</div>',
+      //       '<div class="player-info">',
+      //         '<p><strong>Name: </strong><span class="player-name">' + listResults[tag][0].Name + '&nbsp;&nbsp;</span></p>',
+      //         '<p><strong>Position</strong>: '+ listResults[tag][0].Position +'&nbsp;</p>',
+      //         '<p><strong>Current Team</strong>: '+ listResults[tag][0].Team +'</p>',
+      //         '<p><strong># Of Offenses</strong>: '+ listResults[tag].length +'</p>',
+      //       '</div>',
+      //     '</div>',
+      //   '</div>'
+      // ].join("");
+
+      // // save to listResults object for player
+      // listResults[tag]['modalIntro'] = result_player_item;
+      // // append html to the modal
+      //   $('.popup-inner').append(listResults[tag]['modalIntro']);
+      // // find the last element so we can append the player offenses next
+      // var last_element = $('#player-container');
+      // get the rest of the results by looping through the objects of result, and set up html to append to last element
+      // showPlayerOffenses(tag, last_element);
+
+      // Event handler for show rap sheet button, and animation effects below
+  //     var animation_name = 'animated zoomIn';
+  //     var animation_end = 'webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend';
+  //     $('input[data-popup-open="popup-1"]').on('click', function(){
+  //       $('.popup').fadeIn(1000);
+  //       $('.popup-middle').addClass(animation_name)
+  //         // remove binding
+  //         .on(animation_end, function() {
+  //           $(this).removeClass(animation_name);
+  //         });
+  //       hideModal2();
+  //     });
+  //   };
+  // }
+
+  // var showPlayerOffenses = function(tag, element) {
+  //   if ((typeof listResults[tag]['modalOffenses']) !== "undefined") {
+  //     element.append(listResults[tag]['modalOffenses']);
+  //   } else {
+      // loops through the rest of the objects to create the offenses list
+    //   for(var i=0; i<listResults[tag].length; i++) {
+    //     var list_offenses =
+    //       [
+    //         '<hr>',
+    //         '<div class="player-offenses">',
+    //           '<div class="player-offense-info">' +
+    //             '<p><strong>Offense: </strong><span>' + listResults[tag][i].Category + '&nbsp;&nbsp;</span></p>',
+    //             '<p><strong>Date</strong>: '+ listResults[tag][i].Date +'&nbsp;',
+    //             '<p><strong>Description</strong>: '+ listResults[tag][0].Description +'</p>',
+    //             '<p><strong>Encounter</strong>: '+ listResults[tag][i].Encounter +'</p>',
+    //             '<p><strong>Outcome</strong>: '+ listResults[tag][i].Outcome +'</p>',
+    //             '<p><strong>Position</strong>: '+ listResults[tag][i].Position +'</p><p><strong>Team City</strong>: '+ listResults[tag][i].Team +'</p>',
+    //           '</div>',
+    //         '</div>'
+    //       ].join("");
+
+    //     listResults[tag]['modalOffenses'] = list_offenses;
+    //     element.append(list_offenses);
+    //   };
+    // };
+  // }
+
+
+
+  // var showModalAgain = function() {
+  //   $('input[value="show rap sheet"]').on('click', function (e) {
+  //     var name = $(this).siblings('li').first().text().split(': ')[1].toLowerCase();
+  //     // parse the name
+  //       editTag(name);
+  //     // ajax call
+  //     repeatPlayerData(name);
+
+  //     console.log('hello');
+  //   });
+  // }
+
+  // var repeatPlayerData = function(name) {
+  //   $.ajax({
+  //     url: "http://nflarrest.com/api/v1/player/arrests/" + name,
+  //     data: name,
+  //     dataType: "json",
+  //     type: "GET",
+  //   })
+  //   .done(function(result){
+  //     appendPlayerHtmlAgain(name, result);
+  //     // return result; this gave me undefined on the other function! why?
+  //   })
+  //   .fail(function(jqXHR, error) {
+  //     console.log(error);
+  //   });
+  // }
+
+  // var appendPlayerHtmlAgain = function(tag, result) {
+  //   var edited_tag = editTag(tag);
+  //   // create the html to append
+  //   var result_player_item =
+  //     [
+  //       '<div id="player-container" class="append_to">',
+  //         '<div id="player-bio" class="clearfix">',
+  //           '<div class="player-photo">',
+  //             '<img src="https://s3.amazonaws.com/nfl-arrests/profile-pics/' + edited_tag + '.png" width="100" height="100">',
+  //           '</div>',
+  //           '<div class="player-info">',
+  //             '<p>',
+  //               '<strong>Name: </strong>',
+  //               '<span class="player-name">' + result[0].Name + '&nbsp;&nbsp;</span>',
+  //             '</p>',
+  //             '<p>',
+  //               '<strong>Position</strong>: '+ result[0].Position +'&nbsp;',
+  //               '<p>',
+  //                 '<strong>Current Team</strong>: '+ result[0].Team,
+  //               '</p>',
+  //               '<p>',
+  //                 '<strong># Of Offenses</strong>: '+ result.length,
+  //               '</p>',
+  //             '</p>',
+  //           '</div>',
+  //         '</div>',
+  //       '</div>',
+  //     ].join("");
+
+  //   // append newly created html to the popup .popup-inner
+  //   $('.popup-inner').append(result_player_item);
+  //   var last_element = $('#player-container');
+
+  //   // get the rest of the offenses list from result
+  //   showPlayerOffenses(last_element, result);
+  //     var animation_name = 'animated zoomIn';
+  //     var animation_end = 'webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend';
+
+  //   // create event handler for player rap sheet button
+  //   $('input[data-popup-open="popup-1"]').one('click', function(){
+  //     $('.popup').fadeIn(1000);
+  //     $('.popup-middle').addClass(animation_name)
+  //       // remove binding
+  //       .on(animation_end, function() {
+  //         $(this).removeClass(animation_name);
+  //       });
+  //     hideModal2();
+  //   });
+  // };
 
 /* 2nd section .background, .feat1, .feat2, .feat3 */
   var getData = function (tag, callback) {
@@ -296,7 +417,7 @@ var html = {
         [
           '<ol id="top_crimes_list">',
             '<li id="">',
-              '<span>' + result[i].Category + '</span>',
+              '<span class="crime-cell">' + result[i].Category + '</span>',
               '<span class="value-cell"> ' + result[i].arrest_count + '</span>',
             '</li>',
           '</ol>',
@@ -313,8 +434,8 @@ var html = {
         [
           '<ol id="top_teams_list">',
             '<li id="top_team_0">',
-              '<span>'+ result[i].Team +' </span>',
-              '<span class="value-cell">'+ result[i].arrest_count +'</span>',
+              '<div><span class="team-cell">'+ result[i].Team +' </span></div>',
+              '<div><span class="value-cell">'+ result[i].arrest_count +'</span></div>',
             '</li>',
           '</ol>',
         ].join("");
@@ -330,8 +451,8 @@ var html = {
         '<ol id="top_players_list">',
           '<li id="top_player_0">',
             '<a href="player.html#!DUI">',
-              '<span>DUI</span>',
-              '<span class="value-cell">205</span>',
+              '<div><span class="player-cell">DUI</span></div>',
+              '<div><span class="value-cell">205</span></div>',
             '</a>',
           '</li>',
         '</ol>',
@@ -350,8 +471,8 @@ var html = {
           '<ol id="top_' + id +'">',
             '<li">',
               '<a href="team.html#!DUI">',
-                '<span>'+ result[i].attr +'</span>',
-                '<span class="value-cell">'+ result[i].arrest_count +'</span>',
+                '<div><span>'+ result[i].attr +'</span></div>',
+                '<div><span class="value-cell">'+ result[i].arrest_count +'</span></div>',
               '</a>',
             '</li>',
           '</ol>',
