@@ -69,15 +69,18 @@ hr {
   display: inline-block;
 }
 
-ul {
+.player-item li{
   list-style-type: none;
+  padding-bottom:5px;
+}
+
+.result-item {
+  padding: 22px;
+}
+
+.player-item {
   display: inline-block;
 }
-
-ol {
-  list-style-type: none;
-}
-
 
 /* MODAL CSS */
 
@@ -242,7 +245,7 @@ ol {
     border-top: 1px solid #fff;
     border-bottom: 2px solid #fff;
     border-right: 2px solid #fff;
-    overflow: hidden;
+    overflow: auto;
     color: #fff;
 
   }
@@ -254,7 +257,7 @@ ol {
     height:400px;
     color:#fff;
     /*margin-top: -20px;*/
-    overflow: hidden;
+    overflow: auto;
   }
 
   .feat3 {
@@ -273,20 +276,14 @@ ol {
   }
 
   span#last_crime_span {
-      margin-left: 20%;
+      /*margin-left: 20%;*/
   }
 
-  div span.value-cell {
-
-  }
-/*  span.value-cell, span.team-cell, span.player-cell {
-    margin-left: 26%;
+  .table {
+    width: 60%;
+    margin: 20px auto;
   }
 
-  span.name-cell {
-    margin-left: -6%
-  }
-*/
   .top_teams {
     border-bottom: 0.01px solid white;
   }
