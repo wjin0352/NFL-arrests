@@ -276,7 +276,19 @@ hr {
   }
 
   span#last_crime_span {
-      /*margin-left: 20%;*/
+      padding-left: 32%;
+  }
+
+  span.list-heading {
+    padding-left: 44%;
+  }
+
+  span#last_team_span {
+    padding-left: 35%;
+  }
+
+  span#last_player_span {
+    padding-left: 33%;
   }
 
   .table {
